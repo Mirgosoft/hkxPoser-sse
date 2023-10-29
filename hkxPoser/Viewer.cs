@@ -291,16 +291,6 @@ namespace hkxPoser
 
             AssignAnimationPose(0);
 
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("Anim .annotations: " + anim.annotations.ToString());
-            if (anim.defaultMotion != null)
-                Console.WriteLine("Anim .defaultMotion.duration: " + anim.defaultMotion.duration);
-            Console.WriteLine("Anim .duration: " + anim.duration);
-            Console.WriteLine("Anim .hasExtractedMotion: " + anim.hasExtractedMotion);
-            Console.WriteLine("Anim .numFloats: " + anim.numFloats);
-            Console.WriteLine("Anim .numOriginalFrames: " + anim.numOriginalFrames);
-            Console.WriteLine("Anim .numTransforms: " + anim.numTransforms);
-            Console.WriteLine("--------------------------------------------------");
         }
 
         public void SaveAnimation(string dest_file)
