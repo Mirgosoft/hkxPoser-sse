@@ -60,7 +60,7 @@ namespace hkxPoser
                     camera.MoveView(-dx * 0.3125f, dy * 0.3125f, 0.0f);
                     break;
                 case MouseButtons.Right:
-                    camera.MoveView(0.0f, 0.0f, -dx-dy * 0.3125f);
+                    camera.MoveView(0.0f, 0.0f, +dx+dy * 0.3125f);
                     break;
             }
 
