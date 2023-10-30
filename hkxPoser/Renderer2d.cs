@@ -57,6 +57,7 @@ namespace hkxPoser
                 zaxisBrush = new SolidColorBrush(renderTarget, zaxisColor);
 
                 textFormat = new TextFormat(dwriteFactory, "Verdana", FontWeight.Bold, FontStyle.Normal, 14.0f);
+                textFormat.TextAlignment = TextAlignment.Center;
             }
         }
 
@@ -103,12 +104,14 @@ namespace hkxPoser
 
             //renderTarget.Clear(ScreenColor);
 
-            DrawCenterAxis();
+            if (Flamin.IsShowedBones()) {
+                DrawCenterAxis();
 
-            DrawBoneTree();
-            DrawSelectedBone(selected_bone);
+                DrawBoneTree();
+                DrawSelectedBone(selected_bone);
+            }
 
-            DrawText(anim_filename, ref size);
+            DrawText(anim_filename, 12, 25, ref size);
 
             try
             {
@@ -121,9 +124,9 @@ namespace hkxPoser
             }
         }
 
-        void DrawText(string anim_filename, ref Size2 size)
+        void DrawText(string anim_filename, int x, int y, ref Size2 size)
         {
-            renderTarget.DrawText(string.Format("File: {0}", anim_filename), textFormat, new RectangleF(12, size.Height-12-45-20, size.Width-24, 20), textBrush);
+            renderTarget.DrawText(string.Format("File: {0}", anim_filename), textFormat, new RectangleF(x, y, size.Width-24, 20), textBrush);
         }
 
         void DrawLine(Vector3 p0, Vector3 p1, Brush brush)

@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flamin.cs" />
+    <Compile Include="FlaminGeneral.cs" />
     <Compile Include="Renderer3d.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="BoneMapCollection.cs" />

@@ -60,7 +60,7 @@ namespace hkxPoser
                     camera.MoveView(-dx * 0.3125f, dy * 0.3125f, 0.0f);
                     break;
                 case MouseButtons.Right:
-                    camera.MoveView(0.0f, 0.0f, -dy * 0.3125f);
+                    camera.MoveView(0.0f, 0.0f, -dx-dy * 0.3125f);
                     break;
             }
 
@@ -106,7 +106,7 @@ namespace hkxPoser
 
         protected void form_Resize(object sender, EventArgs e)
         {
-            System.Console.WriteLine("Viewer.form_Resize");
+            //System.Console.WriteLine("Viewer.form_Resize");
 
             renderer2d.DiscardDeviceResources();
             renderer3d.DiscardDeviceResources();
@@ -190,7 +190,7 @@ namespace hkxPoser
             if (anim.numOriginalFrames > 1)
                 // loop animation. not pose.
                 idx %= anim.numOriginalFrames - 1;
-            hkaPose pose = anim.pose[idx];
+            hkaPose pose = Flamin.TryGetAccuratePose(idx);
             int nbones = System.Math.Min(skeleton.bones.Length, pose.transforms.Length);
             for (int i = 0; i < nbones; i++)
             {
@@ -289,8 +289,9 @@ namespace hkxPoser
             if (LoadAnimationEvent != null)
                 LoadAnimationEvent(this, EventArgs.Empty);
 
-            AssignAnimationPose(0);
+            Flamin.SetAnimation(anim);
 
+            AssignAnimationPose(0);
         }
 
         public void SaveAnimation(string dest_file)
@@ -381,6 +382,9 @@ namespace hkxPoser
         public bool SelectBone()
         {
             bool found = false;
+
+            if (!Flamin.IsShowedBones())
+                return false;
 
             //スクリーン座標からboneを見つけます。
             //衝突する頂点の中で最も近い位置にあるboneを返します。

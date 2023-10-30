@@ -18,6 +18,11 @@ namespace hkxPoser
         {
             InitializeComponent();
 
+            Flamin.Init(this, timer_Update, button_PlayPausePlayback,
+                        checkBox_ShowBones, numericUpDown_MaxFPS,
+                        trackBar1, label_TotalFrames, label_Duration, 
+                        checkBox_SmoothFrames, label_FPS);
+
             this.ClientSize = settings.ClientSize;
             viewer = new Viewer(settings);
             viewer.LoadAnimationEvent += delegate(object sender, EventArgs args)
@@ -27,12 +32,15 @@ namespace hkxPoser
             };
             if (viewer.InitializeGraphics(this))
             {
-                timer1.Enabled = true;
+                timer_Update.Enabled = true;
             }
+
+            Flamin.LoadFormWndSizes();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer_Update_Tick(object sender, EventArgs e)
         {
+            Flamin.UpdateTimeline();
             viewer.Update();
             viewer.Render();
         }
@@ -72,9 +80,18 @@ namespace hkxPoser
             }
         }
 
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
-        {
+        private void trackBar1_ValueChanged(object sender, EventArgs e) {
             viewer.SetCurrentPose(trackBar1.Value);
+            label_CurrentFrame.Text = trackBar1.Value.ToString();
+        }
+
+        private void trackBar1_MouseDown(object sender, MouseEventArgs e) {
+            Flamin.MoveTrackBarToMouseClickPos(trackBar1, e.X);
+        }
+        
+        private void trackBar1_MouseMove(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left)
+                Flamin.MoveTrackBarToMouseClickPos(trackBar1, e.X);
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -91,5 +108,25 @@ namespace hkxPoser
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Move;
         }
+
+        private void button_PlayPauseAnim_Click(object sender, EventArgs e) {
+            Flamin.ToggleAnimationPlayback();
+        }
+        private void checkBox_SmoothFrames_CheckedChanged(object sender, EventArgs e) {
+            Flamin.SetFramesSmoothing(checkBox_SmoothFrames.Checked);
+        }
+
+        private void checkBox_ShowBones_CheckedChanged(object sender, EventArgs e) {
+            Flamin.SetBonesDisplay(checkBox_ShowBones.Checked);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+            Flamin.SaveSettings();
+        }
+
+        private void numericUpDown_MaxFPS_ValueChanged(object sender, EventArgs e) {
+            Flamin.ChangeMaxFPS((int)numericUpDown_MaxFPS.Value);
+        }
+
     }
 }
