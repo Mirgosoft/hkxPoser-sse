@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace hkxPoser
         static Label _label_FPS = null;
 
         static hkaAnimation _anim = null;
+        static string _animFullpath = "";
+        static string _animFilename = "";
 
         static bool _bShowBones = true;
         static bool _bAnimIsPlaying = false;
@@ -63,8 +66,10 @@ namespace hkxPoser
             LoadSettings();
         }
 
-        public static void SetAnimation(hkaAnimation anim, string anim_filename) {
+        public static void SetAnimation(hkaAnimation anim, string anim_filepath) {
             _anim = anim;
+            _animFullpath = anim_filepath;
+            _animFilename = Path.GetFileName(anim_filepath);
             _animFrameTime = _anim.duration / _anim.numOriginalFrames;
             _animCurrTime = 0f;
             _labelTotalFrames.Text = "Frames: " + _anim.numOriginalFrames; 
@@ -76,7 +81,7 @@ namespace hkxPoser
             Console.WriteLine("##             New Animation Loaded             ##");
             Console.WriteLine("##################################################");
             Console.WriteLine("");
-            Console.WriteLine("FileName: " + anim_filename);
+            Console.WriteLine("FileName: " + _animFilename);
             Console.WriteLine("Duration: " + anim.duration);
             Console.WriteLine("Frames: " + anim.numOriginalFrames);
             Console.WriteLine("Transforms num: " + anim.numTransforms);
@@ -213,6 +218,72 @@ namespace hkxPoser
             MoveTimelineToFrame(frame);
             track_bar.Value = frame;
         }
+
+        #region Next/Prev File
+
+        public static void PlayNearAnimationFile(int direction = -1) {
+            string[] sorted_hkx_files = GetAllAnimFilesInCurrentAnimFolder();
+            if (sorted_hkx_files == null || sorted_hkx_files.Length < 2)
+                return;
+
+            int curr_anim_i = Array.FindIndex(sorted_hkx_files, str => str == _animFilename);
+
+            if (curr_anim_i < 0)
+                return;
+            int target_anim_i = curr_anim_i + direction;
+
+            if (target_anim_i < 0)
+                target_anim_i = sorted_hkx_files.Length - 1;
+            else if (target_anim_i > sorted_hkx_files.Length - 1)
+                target_anim_i = 0;
+
+            string target_filepath = Path.GetDirectoryName(_animFullpath) 
+                + "\\" + sorted_hkx_files[target_anim_i];
+
+            if (!File.Exists(target_filepath))
+                return;
+
+            _mainForm.viewer.LoadAnimation(target_filepath);
+        }
+
+        static string[] GetAllAnimFilesInCurrentAnimFolder() {
+
+            string curr_anim_folder = Path.GetDirectoryName(_animFullpath);
+            if (!Directory.Exists(curr_anim_folder))
+                return null;
+
+            string[] anims_arr = Directory.GetFiles(curr_anim_folder,
+                                    "*.hkx", SearchOption.TopDirectoryOnly);
+
+            // Оставляем только имена.
+            for (int i = 0; i < anims_arr.Length; i++)
+                anims_arr[i] = Path.GetFileName(anims_arr[i]);
+
+            // Добавляем наш файл в массив, если нужно.
+            if (!anims_arr.Contains(_animFilename)) {
+                Array.Resize(ref anims_arr, anims_arr.Length + 1);
+                anims_arr[anims_arr.GetUpperBound(0)] = _animFilename;
+            }
+
+            // Сортируем правильно.
+            Array.Sort(anims_arr, new FilePathesComparer());
+
+            return anims_arr;
+        }
+
+        public class FilePathesComparer : IComparer<string> {
+            [System.Runtime.InteropServices.DllImport("shlwapi.dll", 
+                CharSet = System.Runtime.InteropServices.CharSet.Unicode, 
+                ExactSpelling = true)]
+            static extern int StrCmpLogicalW(String x, String y);
+
+            public int Compare(string x, string y) {
+                return StrCmpLogicalW(x, y);
+            }
+        }
+
+
+        #endregion
 
         #region Settings
 

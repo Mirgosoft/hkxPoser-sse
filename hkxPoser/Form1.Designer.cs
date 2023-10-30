@@ -51,6 +51,9 @@
             this.label_CurrentFrame = new System.Windows.Forms.Label();
             this.checkBox_SmoothFrames = new System.Windows.Forms.CheckBox();
             this.label_FPS = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button_OpenPrevFile = new System.Windows.Forms.Button();
+            this.button_OpenNextFile = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFPS)).BeginInit();
@@ -268,12 +271,38 @@
             this.label_FPS.TabIndex = 10;
             this.label_FPS.Text = "FPS: ";
             // 
+            // button_OpenPrevFile
+            // 
+            this.button_OpenPrevFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_OpenPrevFile.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_OpenPrevFile.Location = new System.Drawing.Point(126, 383);
+            this.button_OpenPrevFile.Name = "button_OpenPrevFile";
+            this.button_OpenPrevFile.Size = new System.Drawing.Size(42, 32);
+            this.button_OpenPrevFile.TabIndex = 11;
+            this.button_OpenPrevFile.Text = "|<";
+            this.button_OpenPrevFile.UseVisualStyleBackColor = true;
+            this.button_OpenPrevFile.Click += new System.EventHandler(this.button_OpenPrevFile_Click);
+            // 
+            // button_OpenNextFile
+            // 
+            this.button_OpenNextFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_OpenNextFile.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_OpenNextFile.Location = new System.Drawing.Point(174, 383);
+            this.button_OpenNextFile.Name = "button_OpenNextFile";
+            this.button_OpenNextFile.Size = new System.Drawing.Size(42, 32);
+            this.button_OpenNextFile.TabIndex = 12;
+            this.button_OpenNextFile.Text = ">|";
+            this.button_OpenNextFile.UseVisualStyleBackColor = true;
+            this.button_OpenNextFile.Click += new System.EventHandler(this.button_OpenNextFile_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 450);
+            this.Controls.Add(this.button_OpenNextFile);
+            this.Controls.Add(this.button_OpenPrevFile);
             this.Controls.Add(this.numericUpDown_MaxFPS);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label_FPS);
@@ -321,6 +350,9 @@
         private System.Windows.Forms.Label label_CurrentFrame;
         private System.Windows.Forms.CheckBox checkBox_SmoothFrames;
         private System.Windows.Forms.Label label_FPS;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button_OpenPrevFile;
+        private System.Windows.Forms.Button button_OpenNextFile;
     }
 }
 

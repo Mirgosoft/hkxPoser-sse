@@ -134,5 +134,12 @@ namespace hkxPoser
             Flamin.ChangeMaxFPS((int)numericUpDown_MaxFPS.Value);
         }
 
+        private void button_OpenPrevFile_Click(object sender, EventArgs e) {
+            Flamin.PlayNearAnimationFile(-1);
+        }
+
+        private void button_OpenNextFile_Click(object sender, EventArgs e) {
+            Flamin.PlayNearAnimationFile(1);
+        }
     }
 }
