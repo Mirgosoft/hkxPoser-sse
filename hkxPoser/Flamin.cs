@@ -251,5 +251,32 @@ namespace hkxPoser
         }
 
         #endregion
+
+        #region Show/Hide Console Window
+
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+
+        static IntPtr _consoleWndHandle = IntPtr.Zero;
+
+        public static void ShowConsoleWindow() {
+            if (_consoleWndHandle == IntPtr.Zero)
+                _consoleWndHandle = GetConsoleWindow();
+            ShowWindow(_consoleWndHandle, SW_SHOW);
+        }
+        public static void HideConsoleWindow() {
+            if (_consoleWndHandle == IntPtr.Zero)
+                _consoleWndHandle = GetConsoleWindow();
+            ShowWindow(_consoleWndHandle, SW_HIDE);
+        }
+
+        #endregion
+
     }
 }

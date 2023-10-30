@@ -20,6 +20,8 @@ namespace hkxPoser
                 ).Count() > 1) {
                 return;
             }
+            // Показываем консоль, если программа до этого ещё не запускалась.
+            Flamin.ShowConsoleWindow();
 
             Settings settings = Settings.Load(Path.Combine(Application.StartupPath, @"config.xml"));
             ////settings.Dump();
@@ -49,6 +51,9 @@ namespace hkxPoser
         [STAThread]
         static void Main(string[] args)
         {
+            // Прячем консоль, пока не понятно, впервые ли запущена программа.
+            Flamin.HideConsoleWindow();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
