@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,11 @@ namespace hkxPoser
             }
 
             Flamin.LoadFormWndSizes();
+
+            // Load hkx file, if double clicked on assotiated with this app.
+            string[] cmd_args = Environment.GetCommandLineArgs();
+            if (cmd_args.Length > 1 && File.Exists(cmd_args[1]))
+                viewer.LoadAnimation(cmd_args[1]);
         }
 
         private void timer_Update_Tick(object sender, EventArgs e)

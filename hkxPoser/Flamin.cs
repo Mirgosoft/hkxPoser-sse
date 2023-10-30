@@ -63,7 +63,7 @@ namespace hkxPoser
             LoadSettings();
         }
 
-        public static void SetAnimation(hkaAnimation anim) {
+        public static void SetAnimation(hkaAnimation anim, string anim_filename) {
             _anim = anim;
             _animFrameTime = _anim.duration / _anim.numOriginalFrames;
             _animCurrTime = 0f;
@@ -76,6 +76,7 @@ namespace hkxPoser
             Console.WriteLine("##             New Animation Loaded             ##");
             Console.WriteLine("##################################################");
             Console.WriteLine("");
+            Console.WriteLine("FileName: " + anim_filename);
             Console.WriteLine("Duration: " + anim.duration);
             Console.WriteLine("Frames: " + anim.numOriginalFrames);
             Console.WriteLine("Transforms num: " + anim.numTransforms);

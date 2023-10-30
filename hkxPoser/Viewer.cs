@@ -289,7 +289,7 @@ namespace hkxPoser
             if (LoadAnimationEvent != null)
                 LoadAnimationEvent(this, EventArgs.Empty);
 
-            Flamin.SetAnimation(anim);
+            Flamin.SetAnimation(anim, this.anim_filename);
 
             AssignAnimationPose(0);
         }
