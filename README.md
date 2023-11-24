@@ -1,6 +1,6 @@
 # hkxPoser
 This is a simple editor for animation.hkx.
-I made it for the purpose of fine adjustment of existing pose.
+(Forked from https://github.com/opparco/hkxPoser)
 
 ## Prerequisite
 - .NET Framework 4.5.2
